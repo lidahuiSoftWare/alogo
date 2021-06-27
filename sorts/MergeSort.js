@@ -24,6 +24,28 @@
  * 5.归并排序为稳定的排序
  */
 
+/** 归并排序 */
+function mergeSort(arr = [], start = 0, end = arr.length -1 ) {
+    if (start >= end ) {
+        return start ;
+    }
+
+    const middle = Math.floor( (end + start ) / 2); 
+    // left 子数组
+    const leftStart = start, // left 数组开始
+    leftEnd = middle;//  left 数组结束索引, 包含leftEnd
+    // right 子数组
+    const rightStart = middle + 1, // right 数组开始索引
+    rightEnd = end; // right 数组结束索引，right 数组包含rightEnd
+
+    // 排序left 子数组
+    mergeSort(arr, leftStart, leftEnd);
+    // 排序 right 子数组
+    mergeSort(arr, rightEnd, rightEnd);
+    // 将排序好 left 和 right 进行合并
+    return mergeArr( arr, leftStart, leftEnd, rightStart,rightEnd );
+}
+
 /** 合并数组 */
 function mergeArr(arr, leftStart, leftEnd, rightStart, rightEnd ) {
     const temp = new Array(rightEnd - leftStart + 1);
@@ -56,24 +78,17 @@ function mergeArr(arr, leftStart, leftEnd, rightStart, rightEnd ) {
     return arr;
 }
 
-/** 归并排序 */
-function mergeSort(arr = [], start = 0, end = arr.length -1 ) {
-    if (start >= end ) {
-        return start ;
+/** 归并排序简单版本, 时间复杂度是一样的，但是 空间复杂度 nlog^n */
+function mergeSortSimple(arr) {
+    if (arr.length <= 1) {
+        return arr;
     }
 
-    const middle = Math.floor( (end + start ) / 2); 
-    const leftStart = start, // left 数组开始
-    leftEnd = middle;//  left 数组结束索引, 包含leftEnd
-    const rightStart = middle + 1, // right 数组开始索引
-    rightEnd = end; // right 数组结束索引，right 数组包含rightEnd
+    const middle = Math.floor(arr.length / 2);
+    const left = arr.slice(0, middle);
+    const right = arr.slice(middle);
 
-    // 排序left 子数组
-    mergeSort(arr, leftStart, leftEnd);
-    // 排序 right 子数组
-    mergeSort(arr, rightEnd, rightEnd);
-    // 将排序好 left 和 right 进行合并
-    return mergeArr( arr, leftStart, leftEnd, rightStart,rightEnd );
+    return mergeArrSimple(mergeSortSimple(left) , mergeSortSimple(right));
 }
 
 /** 合并left 和 right 进而生成新数组  */
@@ -100,19 +115,6 @@ function mergeArrSimple(left, right) {
 
     return temp;        
 
-}
-
-/** 归并排序简单版本, 时间复杂度是一样的，但是 空间复杂度 nlog^n */
-function mergeSortSimple(arr) {
-    if (arr.length <= 1) {
-        return arr;
-    }
-
-    const middle = Math.floor(arr.length / 2);
-    const left = arr.slice(0, middle);
-    const right = arr.slice(middle);
-
-    return mergeArrSimple(mergeSortSimple(left) , mergeSortSimple(right));
 }
 
 
