@@ -8,7 +8,6 @@
  * 平均时间复杂度： nlog^n
  * 
  * 2.空间复杂度为 O(n)
- * 
  */
 
 /** 归并并数组 */
@@ -20,7 +19,7 @@ function mergeArr(arr, leftStart, leftEnd, rightStart, rightEnd ) {
     
     while(leftIndex < leftEnd && rightIndex < rightEnd ) {
         if (arr[leftIndex] < arr[rightIndex]) {
-            temp[index++] = left[leftIndex++];
+            temp[index++] = arr[leftIndex++];
         } else if (arr[leftIndex] === arr[rightIndex]) {
             temp[index++] =arr[leftIndex++];
         } else {
@@ -38,14 +37,14 @@ function mergeArr(arr, leftStart, leftEnd, rightStart, rightEnd ) {
 
     // 拷贝temp 到 arr 数组中
     temp.forEach ((val, index) => {
-        arr[left + index] = val
+        arr[leftStart + index] = val
     }); 
     return arr;
 }
 
 /** 归并排序 */
 function mergeSort(arr = [], start = 0, end = arr.length) {
-    if (start >= end - 1 ) {
+    if (start >= end -1  ) {
         return start ;
     }
     const middle = Math.floor( (end + start ) / 2);
@@ -57,13 +56,7 @@ function mergeSort(arr = [], start = 0, end = arr.length) {
           rightStart = middle, // right 数组开始索引
           rightEnd = end; // right 数组结束索引，right 数组不包含rightEnd
 
-    return mergeArr( 
-        arr, 
-        leftStart,
-        leftEnd,
-        rightStart,
-        rightEnd,
-    );
+    return mergeArr( arr, leftStart, leftEnd, rightStart,rightEnd );
 }
 
 /** 合并left 和 right 进而生成新数组  */
@@ -93,7 +86,6 @@ function mergeArrSimple(left, right) {
 }
 
 /** 归并排序简单版本, 时间复杂度是一样的，但是 空间复杂度 nlog^n */
-
 function mergeSortSimple(arr) {
     if (arr.length <= 1) {
         return arr;
@@ -109,7 +101,7 @@ function mergeSortSimple(arr) {
 
 /** 测试归并排除 */
 (() => {
-    const testArrary = [10, 9, 8 ];
-    //console.log(mergeSort(testArrary))
-    console.log(mergeSortSimple(testArrary))
+    const testArrary = [10, 9, 8, 7, 6 ];
+    console.log(mergeSort(testArrary))
+    // console.log(mergeSortSimple(testArrary))
 }) ();
