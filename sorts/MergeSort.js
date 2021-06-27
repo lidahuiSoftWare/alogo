@@ -24,7 +24,7 @@
  * 5.归并排序为稳定的排序
  */
 
-/** 并数组 */
+/** 合并数组 */
 function mergeArr(arr, leftStart, leftEnd, rightStart, rightEnd ) {
     const temp = new Array(rightEnd - leftStart + 1);
     let leftIndex = leftStart, 
