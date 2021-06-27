@@ -1,16 +1,29 @@
 /**
- * 归并排序： 核心思想和分治。如果要排序一个数组，先把数组从中间分成前后2个部分，
- *           然后对每个部分分别进行排序，再将已排好序的俩部分合并在一起，这样的数组就有序了。
+ * 1.归并排序思想： 核心思想和分治。如果要排序一个数组，先把数组从中间分成前后2个部分，
+ *                然后对每个部分分别进行排序，再将已排好序的俩部分合并在一起，这样的数组就有序了。
  * 
- * 1.由于归并排序的时间复杂度与 原数组的有序度无关，最好/最差/平均时间复杂度是一样的
+ * 2.归并排序递推公式： 
+ *      merge_sort(p...r) = merge_arr( merge_sort(p...q), merge_sort(q+1 ...r))
+ *      其中 p为数组开始索引位置， r为数组的结束位置， q 为 p 和 q 的中间位置 （p + r） / 2
+ *  终止条件：
+ *      p >= r 
+ *  递推公式解释：
+ *      merge_sort(p...r) 表示，给数组索从 p 到 q 之间数组元素进行排序。
+ *      我们这个排序问题分解为 2个子问题, merge_sort(p...q) 和 merge_sort(q+1...r), 
+ *      其中索引引 q 为 p和r 的中间位置,也就是 ( p + r) / 2.
+ *      当索引从 p 到 q 和 q + 1 到 r 这俩个子数组排好序之后，我们再将俩个有序的子数组合并在一起，这样索引从 p 到 r 之间的数据也就排好序。 
+ * 
+ * 3.由于归并排序的时间复杂度与 原数组的有序度无关，最好/最差/平均时间复杂度是一样的
  * 最好时间复杂度： nlog^n 
  * 最差时间复杂度： nlog^n 
  * 平均时间复杂度： nlog^n
  * 
- * 2.空间复杂度为 O(n)
+ * 4.空间复杂度为 O(n)
+ * 
+ * 5.归并排序为稳定的排序
  */
 
-/** 归并并数组 */
+/** 并数组 */
 function mergeArr(arr, leftStart, leftEnd, rightStart, rightEnd ) {
     const temp = new Array(rightEnd - leftStart + 1);
     let leftIndex = leftStart, 
@@ -49,15 +62,16 @@ function mergeSort(arr = [], start = 0, end = arr.length -1 ) {
     }
 
     const middle = Math.floor( (end + start ) / 2); 
-    // 将数组分成2个小数组，进行递归排序
     const leftStart = start, // left 数组开始
     leftEnd = middle;//  left 数组结束索引, 包含leftEnd
     const rightStart = middle + 1, // right 数组开始索引
     rightEnd = end; // right 数组结束索引，right 数组包含rightEnd
 
+    // 排序left 子数组
     mergeSort(arr, leftStart, leftEnd);
+    // 排序 right 子数组
     mergeSort(arr, rightEnd, rightEnd);
-
+    // 将排序好 left 和 right 进行合并
     return mergeArr( arr, leftStart, leftEnd, rightStart,rightEnd );
 }
 
