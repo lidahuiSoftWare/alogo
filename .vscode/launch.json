@@ -6,10 +6,10 @@
     "configurations": [
         {
             "type": "pwa-node",
-            "name": "skiplist-node",
-            "args": [
-                "${workspaceFolder}/src/skipList/index.ts"
-            ],
+            "request": "launch",
+            "name": "ts-node Program",
+            "cwd": "${fileDirname}",
+            "program": "${file}",
             "runtimeArgs": [
                 "--nolazy",
                 "-r",
@@ -27,7 +27,9 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/src/sorts/quickSortRecurionByHeap.js",
+            "cwd": "${fileDirname}",
+            "program": "${file}",
+            //"program": "${workspaceFolder}/src/sorts/quickSortRecurionByHeap.js",
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]
