@@ -19,8 +19,8 @@
  */
 
 function countingSort( arr = []) {
-
     const length =  arr.length;
+
     if ( length <= 1) {
         return arr;
      }
@@ -44,7 +44,7 @@ function countingSort( arr = []) {
     // 申请临时数组,用来存储排序数组
      const temp = new Array(length);
      /** 倒序扫描数组，将数组元素存入到对应的索引位置  */
-     for (let i = length -1; i >= 0 ; i--) {
+     for (let i = length - 1; i >= 0 ; i--) {
         const bIndex = arr[i]; 
         const tempIndex = buckets[bIndex] - 1; // 索引值：value值统计总数 -1 
         temp[tempIndex] = arr[i];

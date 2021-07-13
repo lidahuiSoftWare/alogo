@@ -33,10 +33,10 @@ function mergeSort(arr = [], start = 0, end = arr.length -1 ) {
     const middle = Math.floor( (end + start ) / 2); 
     // left 子数组
     const leftStart = start, // left 数组开始
-    leftEnd = middle;//  left 数组结束索引, 包含leftEnd
+          leftEnd = middle;//  left 数组结束索引, 包含leftEnd
     // right 子数组
     const rightStart = middle + 1, // right 数组开始索引
-    rightEnd = end; // right 数组结束索引，right 数组包含rightEnd
+          rightEnd = end; // right 数组结束索引，right 数组包含rightEnd
 
     // 排序left 子数组
     mergeSort(arr, leftStart, leftEnd);

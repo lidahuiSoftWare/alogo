@@ -1,0 +1,28 @@
+{
+  "name": "alogo",
+  "version": "1.0.0",
+  "description": "alogo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lidahuiSoftWare/alogo.git"
+  },
+  "keywords": [
+    "algo"
+  ],
+  "author": "lidahui",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lidahuiSoftWare/alogo/issues"
+  },
+  "homepage": "https://github.com/lidahuiSoftWare/alogo#readme",
+  "devDependencies": {
+    "@types/node": "^16.0.0",
+    "tslint": "^6.1.3",
+    "typescript": "^4.3.5",
+    "ts-node": "10.1.0"
+  }
+}
