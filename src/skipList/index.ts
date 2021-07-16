@@ -4,7 +4,7 @@ function isNotEmpty(v: any): boolean {
 
 interface LinkedNode {
     // 承载的内容为数字
-    data: number , 
+    data: number, 
     // 当前节点拥有的最高的索引
     maxLevel: number,   
     /**  
