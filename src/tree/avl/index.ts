@@ -1,3 +1,9 @@
+/**
+ * 平衡二叉树，是一种特殊的二叉查找树
+ * AVL 树是最早被发明的自平衡二叉树，，其每一个节点的左右子树的高度差不超过1。
+ * 
+ */
+
 interface Node {
     data: number, 
     left: Node,
@@ -17,7 +23,7 @@ export default class AVLTree {
     public search(data: number): Node {
         return this._serach(this.root, data);
     }
-   
+
     public insert(data: number) {
         let newNode = {data, left: null, right: null, height: 0};
         this.root = this._insert(this.root, newNode);
@@ -160,15 +166,15 @@ export default class AVLTree {
     }
     /** 右左局面旋转 */
     private _rightLeftRotation(node: Node): Node {
-       node.right = this._rightRightRotation(node.right)
+       node.right = this._leftLeftRotation(node.right)
        return this._rightRightRotation(node);
     }
 
     /** 右右局面旋转 */
     private _rightRightRotation(node: Node): Node {
         const rightChild = node.right;
-        node.right = rightChild.left;
-        rightChild.right = node;
+        node.right =  rightChild.left;
+        rightChild.left = node;
         this._computeHeight(node);
         this._computeHeight(rightChild);
         return rightChild;
@@ -176,7 +182,7 @@ export default class AVLTree {
 
     /** 左右局面旋转 */
     private _leftRightRotation(node: Node): Node {
-        node.left = this._leftLeftRotation(node.left);
+        node.left = this._rightRightRotation(node.left);
         return this._leftLeftRotation(node);
     }
 
@@ -210,7 +216,7 @@ export default class AVLTree {
 // 测试
 (() => {
     const aVLTree:AVLTree = new AVLTree();
-    const input: Array<number> = [5,3,7,2,4,6,9,1];
+    const input: Array<number> = [9,3,7,2,4,6,5,1];
 
     for(let i = 0; i < input.length; i++ ) {
         aVLTree.insert(input[i]);
