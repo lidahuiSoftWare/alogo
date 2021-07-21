@@ -51,7 +51,7 @@ export default class SkipList {
         // 获取随机索引层
         const newLevel = this.randomLevel();
         // 新节点
-        const newNode: LinkedNode = {data: value, maxLevel: newLevel, nexts: []};
+        const newNode: LinkedNode = { data: value, maxLevel: newLevel, nexts: [] };
         //每一层待更新节点
         const updatedNode: LinkedNode[] = [];
        
