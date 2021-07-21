@@ -90,7 +90,7 @@ export default class RedBlackTree {
             if (grandParent.left === parent) {
             /** 父亲为祖父的左孩子节点  */
                 const uncle: TreeNode = grandParent.right;
-                /** 场面3： 叔叔节点为红色 */
+                /** 场面1： 叔叔节点为红色 */
                 if (uncle && uncle.color === Color.Red) {
                     parent.color = Color.Black;
                     uncle.color = Color.Black;
@@ -98,21 +98,20 @@ export default class RedBlackTree {
                     node = grandParent; // 回溯检测
                     continue;
                 }
-                /** 场面4：关注节点为父亲右孩子节点， 叔叔节点为黑色  */
+                /** 场面2：关注节点为父亲右孩子节点， 叔叔节点为黑色  */
                 if (node === parent.right) {
                     this._leftRotate(parent);
-                    const tmp: TreeNode = node;
                     node = parent;         
-                    parent = tmp;
+                    parent = node.parent;
                 }
-                /** 场面5：关注节点为父亲左孩子节点，叔叔节点为黑色 */
+                /** 场面3：关注节点为父亲左孩子节点，叔叔节点为黑色 */
                 parent.color = Color.Black;
                 grandParent.color = Color.Red;
                 this._rightRotate(grandParent);
             } else {
              /** 父亲为祖父的右孩子节点 */
                 const uncle: TreeNode = grandParent.right;
-                /** 场面3： 叔叔节点为红色 */
+                /** 场面1： 叔叔节点为红色 */
                 if (uncle && uncle.color === Color.Red) {
                     parent.color = Color.Black;
                     uncle.color = Color.Black;
@@ -120,14 +119,13 @@ export default class RedBlackTree {
                     node = grandParent; // 回溯检测
                     continue;
                 }
-                /** 场面4：关注节点为父亲左孩子节点， 叔叔节点为黑色  */
+                /** 场面2：关注节点为父亲左孩子节点， 叔叔节点为黑色  */
                 if (node === parent.left) {
                     this._rightRotate(parent);
-                    const tmp: TreeNode = node;
                     node = parent;
-                    parent = tmp;
+                    parent = node.parent;
                 }
-                /** 场面5：关注节点为父亲左孩子节点，叔叔节点为黑色 */
+                /** 场面3：关注节点为父亲左孩子节点，叔叔节点为黑色 */
                 parent.color = Color.Black;
                 grandParent.color = Color.Red;
                 this._leftRotate(grandParent);
