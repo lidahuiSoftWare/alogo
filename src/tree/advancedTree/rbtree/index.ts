@@ -58,7 +58,7 @@ export default class RedBlackTree {
             return; 
         }
         let targetNode: TreeNode = this.root;
-        while (targetNode != null ) {
+        while (targetNode != null) {
             if (data >= targetNode.data) {
                 if (targetNode.right === null) {
                     targetNode.right = node;
@@ -163,34 +163,34 @@ export default class RedBlackTree {
             return;
         } 
         /** 第二步： 根据待删除节点和其唯一节点(或者没有子节点)的颜色，进行分情况处理 */
-        let successNode: TreeNode = node.left !== null ? node.left : node.right;
+        let childNode: TreeNode = node.left !== null ? node.left : node.right;
         let parent: TreeNode  = node.parent;
         // 删除的节点为根节点，并且只有唯一节点(或者没有节点)
         if (parent === null) {
-            this.root = successNode;
-            if (successNode !== null) {
-                successNode.parent = null;
+            this.root = childNode;
+            if (childNode !== null) {
+                childNode.parent = null;
             }
             return;
         }
-        // 执行删除node 节点
-        if (successNode !== null) {
-            successNode.parent = parent;
+        /** 第三步：执行删除node 节点*/
+        if (childNode !== null) {
+            childNode.parent = parent;
         }
         if (parent.left === node) {
-            parent.left = successNode;
+            parent.left = childNode;
         } else {
-            parent.right = successNode;
+            parent.right = childNode;
         }
 
-        /**被删除的节点颜色为黑色，需要进一步平衡黑色节点总数*/
+        /**第四步： 被删除的节点颜色为黑色，需要进一步平衡黑色节点总数*/
         if (node.color === Color.Black ) {
             /** 被删除节点为红色，其唯一的孩子节点为红色，将被删除的孩子节点变更为黑色，用来补充减少的黑色节点颜色 */
-          if (successNode !== null && successNode.color === Color.Red) {
-                successNode.color = Color.Black;
+          if (childNode !== null && childNode.color === Color.Red) {
+                childNode.color = Color.Black;
           } else {
               /** 处理双黑节点：被删除的节点和唯一的孩子节点(或者孩子节点为null，null 节点同为黑色)同为黑色 */
-              this._removeAdjust(parent, successNode);
+              this._removeAdjust(parent, childNode);
           }
         }
     }
@@ -216,11 +216,11 @@ export default class RedBlackTree {
                     if (parent.color === Color.Black) {
                         sibling.color = Color.Red;
                         /** 
-                        parent 对应的内部左右分支同时减少了一个黑色节点，
+                        parent 对应的内部左右分支同时减少了一个黑色节点，parent 内部实现了平衡
                         此时parent原就是黑色，parent 整体对外分支无法补充到新增的黑色节点，
                         因此parent对外的分支总体个数少了一个黑色节点 
                         需要继续回溯,将parent 作为关注节点继续回溯 */
-                        node = parent;
+                        node = parent; // 回溯原parent节点 
                         parent = parent.parent; 
                         continue;
                     } 
@@ -300,6 +300,9 @@ export default class RedBlackTree {
                     break;        
                 }
             }
+        }
+        if (node !== null) {
+            node.color = Color.Black;
         }
     }
     
