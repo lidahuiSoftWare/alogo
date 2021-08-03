@@ -30,7 +30,7 @@ function mergeSort(arr = [], start = 0, end = arr.length -1 ) {
         return start ;
     }
 
-    const middle = Math.floor( (end + start ) / 2); 
+    const middle = start +  Math.floor( (end - start ) / 2); 
     // left 子数组
     const leftStart = start, // left 数组开始
           leftEnd = middle;//  left 数组结束索引, 包含leftEnd
