@@ -22,6 +22,19 @@ export default class AVLTree {
     public search(data: number): Node {
         return this._serach(this.root, data);
     }
+    
+    private _serach( node: Node, data: number): Node {
+        while(node) {
+            if (node.data === data) {
+                return node;
+            } else if (node.data < data ) {
+                node = node.right;
+            } else {
+                node = node.left;
+            }
+        }
+        return null;
+    }
 
     public insert(data: number) {
         let newNode = {data, left: null, right: null, height: 0};
@@ -127,19 +140,6 @@ export default class AVLTree {
         this._inOrderTraversal(node.right);
     }
 
-    private _serach( node: Node, data: number): Node {
-        while(node) {
-            if (node.data === data) {
-                return node;
-            } else if (node.data < data ) {
-                node = node.right;
-            } else {
-                node = node.left;
-            }
-        }
-        return null;
-    }
-    
     private _keepBlance(node: Node): Node {
        if (node === null) {
            return node; 
