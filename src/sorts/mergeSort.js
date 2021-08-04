@@ -25,9 +25,17 @@
  */
 
 /** 归并排序 */
-function mergeSort(arr = [], start = 0, end = arr.length -1 ) {
+
+function mergeSort(arr) {
+    if (arr === null || arr.length === 1) {
+        return arr;
+    }
+    return mergeSortProcess(arr, 0 , arr.length -1);
+}
+
+function mergeSortProcess(arr = [], start = 0, end = arr.length - 1 ) {
     if (start >= end ) {
-        return start ;
+        return arr ;
     }
 
     const middle = start +  Math.floor( (end - start ) / 2); 
@@ -39,9 +47,9 @@ function mergeSort(arr = [], start = 0, end = arr.length -1 ) {
           rightEnd = end; // right 数组结束索引，right 数组包含rightEnd
 
     // 排序left 子数组
-    mergeSort(arr, leftStart, leftEnd);
+    mergeSortProcess(arr, leftStart, leftEnd);
     // 排序 right 子数组
-    mergeSort(arr, rightEnd, rightEnd);
+    mergeSortProcess(arr, rightStart, rightEnd);
     // 将排序好 left 和 right 进行合并
     return mergeArr( arr, leftStart, leftEnd, rightStart,rightEnd );
 }
@@ -54,10 +62,8 @@ function mergeArr(arr, leftStart, leftEnd, rightStart, rightEnd ) {
         index = 0;
     
     while(leftIndex <= leftEnd && rightIndex <= rightEnd ) {
-        if (arr[leftIndex] < arr[rightIndex]) {
+        if (arr[leftIndex] <= arr[rightIndex]) {
             temp[index++] = arr[leftIndex++];
-        } else if (arr[leftIndex] === arr[rightIndex]) {
-            temp[index++] =arr[leftIndex++];
         } else {
             temp[index++] = arr[rightIndex++];
         }
