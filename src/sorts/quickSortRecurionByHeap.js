@@ -1,7 +1,6 @@
 /**
  * 快速排序思想：使用堆空间的手动来实现递归
  */
-
 class Stack {
     constructor(initSize = 100) {
         this.arr = new Array(initSize).fill(null);

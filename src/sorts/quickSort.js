@@ -31,11 +31,17 @@
  *       如果要排序的数组比较大，那三数取中就不用用了，可能需要 ”五数取中“ 或者 ”十数取中“
  * 
  *   6.2 随机法
- *   
  */
 
-function quickSort( arr = [], startIndex = 0, endIndex = arr.length -1) {
-    
+ function quickSort( arr = []) {
+    if (!arr || arr.length === 1 ) {
+        return arr;
+    }
+
+    return quickSortProcess(arr, 0, arr.length -1);
+}
+
+function quickSortProcess( arr = [], startIndex , endIndex) {
     // 递归结束条件
     if (startIndex >= endIndex) {
         return arr;
@@ -44,16 +50,35 @@ function quickSort( arr = [], startIndex = 0, endIndex = arr.length -1) {
     // const pivotIndex = partition(arr, startIndex, endIndex);
     const pivotIndex = partitionSingleLoop(arr, startIndex, endIndex);
     // 对左数组进行递归排序
-    quickSort(arr, startIndex, pivotIndex - 1);
-    quickSort(arr, pivotIndex + 1 , endIndex);
+    quickSortProcess(arr, startIndex, pivotIndex - 1);
+    quickSortProcess(arr, pivotIndex + 1 , endIndex);
     return arr;
+}
+
+/**  数组以pivot 作为分割点进行排列，大于等于pivot 元素在右边，小于pivot的 元素在左边.
+ *   本方法采用单边循环
+ */
+ function partitionSingleLoop(arr, startIndex, endIndex){
+    // 选择选择startIndex 索引对应数组元素，作为分隔点 privivot. 当然也可以随机选择
+    const pivot = arr[startIndex];
+    // mark 标注小于等于pivot 的边界
+    let mark = startIndex;
+
+    for (let index = startIndex + 1; index <= endIndex; index++) {
+        if (pivot > arr[index]) {
+            mark++;
+            swap(arr, mark, index);
+        }
+    }
+    // 将pivot 送到边界位置，从而
+    swap(arr, startIndex, mark)
+    return mark;
 }
 
 /** 数组以pivot 作为分割点进行排列，大于等于pivot 元素在右边，小于pivot的 元素在左边 
  *  主流方法采用双向循环
  */
 function partition(arr, startIndex, endIndex) {
-    
     // 选择选择startIndex 索引对应数组元素，作为分隔点 privivot. 当然也可以随机选择
     const pivot = arr[startIndex];
     let leftIndex = startIndex + 1,
@@ -76,27 +101,6 @@ function partition(arr, startIndex, endIndex) {
     swap(arr,startIndex, leftIndex);
     // 选好推出后 leftIndex 和 rightIndex 
     return leftIndex;
-}
-
-/**  数组以pivot 作为分割点进行排列，大于等于pivot 元素在右边，小于pivot的 元素在左边.
- *   本方法采用单边循环
- */
-function partitionSingleLoop(arr, startIndex, endIndex){
-        
-    // 选择选择startIndex 索引对应数组元素，作为分隔点 privivot. 当然也可以随机选择
-    const pivot = arr[startIndex];
-    // mark 标注小于pivot 的边界
-    let mark = startIndex;
-
-    for (let index = startIndex + 1; index <= endIndex; index++) {
-        if (pivot > arr[index]) {
-            mark++;
-            swap(arr, mark, index);
-            }
-    }
-    // 将pivot 送到边界位置，从而
-    swap(arr, startIndex, mark)
-    return mark;
 }
 
 function swap (arr, i, j) {
