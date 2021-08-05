@@ -47,15 +47,49 @@ function maxDeepth2(node: TreeNode): number {
         return  0;
     }
     const leftHight = maxDeepth2(node.left);
+    if (leftHight === -1) {
+        return -1;
+    }
     const rightHeight = maxDeepth2(node.right);
-    if (leftHight === -1 || rightHeight === -1 || Math.abs(leftHight - rightHeight) > 1) {
+    if (rightHeight === -1) {
+        return -1;
+    } 
+    if (Math.abs(leftHight - rightHeight) > 1) {
         return -1;
     }
     return Math.max(leftHight, rightHeight) + 1;
 }
 
-/** 5. 判断二叉树是否是完全二叉树 */
+/** 5. 判断二叉树是否是完全二叉树 
+ * https://leetcode-cn.com/problems/check-completeness-of-a-binary-tree/submissions/
+*/
 export function isCompleteTreeNode(root: TreeNode): boolean {
+    if (root === null) {
+        return true;
+    }
+    let hasNoChild = false;
+    const queue: Array<TreeNode> = [];
+    queue.push(root);
+    
+    while (queue.length) {
+        let p = queue.shift();
+        if (hasNoChild && p) {
+            return false;
+        }
+        if (p === null) {
+            hasNoChild = true;
+            continue;
+        }
+        queue.push(p.left);
+        queue.push(p.right);
+    }
+    return true;
+}
+
+/** 解法2:  判断二叉树是否是完全二叉树  
+ *  https://leetcode-cn.com/problems/check-completeness-of-a-binary-tree/submissions/
+*/
+export function isCompleteTreeNode2(root: TreeNode): boolean { 
     if (root === null) {
         return false;
     }
@@ -110,8 +144,7 @@ export function isSameTreeNode(t1: TreeNode , t2: TreeNode): boolean {
 export function isMirror(t1: TreeNode, t2: TreeNode): boolean {
     if (t1 === null && t2 === null) {
         return true;
-    }
-    if (t1 === null || t2 === null) {
+    }else if (t1 === null || t2 === null) {
         return false;
     }
     if (t1.val !== t2.val) {
@@ -133,43 +166,45 @@ function mirrorTree(root: TreeNode) {
     return root;
 }
 
-/** 9.求两个二叉树的最低公共祖先节点 */
+/** 9.求两个二叉树的最低公共祖先节点
+ *  https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/solution/236-er-cha-shu-de-zui-jin-gong-gong-zu-xian-hou-xu/
+ */
 function getLastCommonParent(root: TreeNode, t1: TreeNode, t2: TreeNode) {
-    if (root === null) {
-        return null;
+    if  (root === null || root === t1 || root === t2) {
+        return root;
     }
-
-    if (t1 === null || t2 === null) {
-        return null;
+    const left = getLastCommonParent(root.left, t1, t2);    
+    const right = getLastCommonParent(root.right, t1, t2);
+    if (left === null) {
+        return right;
     }
-
-    if (findNode(root.left, t1)) { // t1 如果在左子树
-        if (findNode(root.right, t2)) { // t2 如果在右子树
-            return root;
-        } else {
-            return getLastCommonParent(root.left, t1, t2);
-        }
-    } else { // t1 如果在右子树
-        if (findNode(root.left, t2)) { // t2 如果在左子树 
-            return root;
-        } else {
-            return getLastCommonParent(root.right, t1, t2);
-        }
+    if (right === null) {
+        return left;
     }
+    return root;
 }
 
-function findNode(root: TreeNode, t1: TreeNode): boolean {
-   if (root === null || t1 === null) {
-        return false;
-   }
+/**
+ * 10. 二叉搜索树的最近公共祖先 
+ * https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-zui-jin-gong-gong-zu-xian-lcof/ */
+ function lowestCommonAncestor(root: TreeNode | null, t1: TreeNode | null, t2: TreeNode | null): TreeNode | null { 
+     if (root === null || root === t1 || root === t2) {
+        return root;
+     }
+     if (t1.val === t2.val) {
+        return t1;
+     }
+     
+     if (root.val > t1.val && root.val > t2.val) {
+        return lowestCommonAncestor(root.left, t1, t2);
+     } else if  (root.val < t1.val && root.val < t2.val) {
+        return lowestCommonAncestor(root.right, t1, t2);
+     } else {
+         return root;
+     }
+ }
 
-   if (root.val === t1.val) {
-        return true;
-   }
-   return findNode(root.left, t1) || findNode(root.right, t1);
-}
-
-/**10. 二叉树前序非递归 遍历: https://leetcode-cn.com/problems/binary-tree-preorder-traversal/submissions/ */
+/**11. 二叉树前序非递归 遍历: https://leetcode-cn.com/problems/binary-tree-preorder-traversal/submissions/ */
 function preorderTraversal(root: TreeNode): Array<number> {
     if (!root) {
         return [];
@@ -248,6 +283,7 @@ function postOrderTraversal(root: TreeNode): Array<number> {
             current = current.left;
         }
         current = stack.pop();
+        /** 后续遍历的条件：当前节点为叶节点 或者 已经访问了当前节点右子树  */
         if (current.right === null || (current.right === prev)) {
             list.push(current.val);
             prev = current;
@@ -281,8 +317,9 @@ function levelOrderTraversal(root: TreeNode): Array<Array<number>> {
     let current = null;
 
     while(queue.length) {
-        let count = queue.length;
+        let count = queue.length; 
         let list: Array<number> = [];
+        /** 对每一层队列的长度进行快照，也就是 每一层数组元素的个数 */
         while (count > 0) {
             current = queue.shift();
             if (current.left) {
@@ -310,7 +347,7 @@ export function sortedArrayToBst(nums: Array<number>): TreeNode {
 }
 
 function sortedArrayToBstProcess(nums: number[], start: number, end: number): TreeNode {
-  if  (start > end) {
+  if (start > end) {
     return null;
   }
   let node = null;
@@ -343,13 +380,17 @@ function sumOfLeftLeavesProcess(root: TreeNode | null, parent: TreeNode | null):
  *  二叉树寻路 https://leetcode-cn.com/problems/path-in-zigzag-labelled-binary-tree/ */
 function pathInZigZagTree(label: number): number [] {
     const res: Array<number> = [];
+    // 自底项目向上
     while (label) {
         res.push(label);
         label = Math.floor (label >> 1);
     }
+    // 因为自底向下，所以数组要倒序
     res.reverse();
     let l: number, r: number, deep = res.length;
-    for (let i = 1; i < deep -1; i++) {
+    for (let i = 1; i < deep - 1; i++) {
+        /** deep 奇数，则需要对偶数层为进行操作  
+            deep 偶数，则需要对奇数层进行操作*/
         if ( (deep & 1) !== (i & 1)) {
             continue;
         }
