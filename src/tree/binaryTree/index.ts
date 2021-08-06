@@ -1,28 +1,32 @@
 import TreeNode from './TreeNode';
 
-/** 1. 求二叉树的最小深度: https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/  */
+/** 1. 求二叉树的最小深度: 
+ * 给定一个二叉树，找出其最小深度。
+   最小深度是从根节点到最近叶子节点的最短路径上的节点数量。
+   说明：叶子节点是指没有子节点的节点。
+ *  https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/  */
 export function getMinDepth(root: TreeNode): number {
-    if (root === null) {
+    if (!root) {
         return 0;
     }
-
-    return getMin(root);
-}
-
-function getMin(node: TreeNode): number {
-    if (node === null) {
-        return 0;
+    if (root.left && root.right) {
+        return Math.min(getMinDepth(root.left), getMinDepth(root.right)) + 1;
+    } else if (root.left && !root.right) {
+        return getMinDepth(root.left) + 1
+    } else if (!root.left && root.right) {
+        return getMinDepth(root.right) + 1
+    } else {
+        return 1;
     }
-
-    return Math.min(getMin(node.left), getMin(node.right)) + 1;
 }
 
-/** 2. 求二叉树中节点的个数  */
+/** 2. 求二叉树中节点的个数:
+ * https://leetcode-cn.com/problems/count-complete-tree-nodes/
+*/
 export function numOfTreeNode(root: TreeNode) : number {
     if (root === null) {
         return 0;
     }
-
     return  numOfTreeNode(root.left) + numOfTreeNode(root.right) + 1;
 }
 
@@ -37,7 +41,8 @@ export function numsOfNoChildNode(root: TreeNode): number {
     return numOfTreeNode(root.left) + numOfTreeNode(root.right);
 }
 
-/**4. 判断二叉树是否是平衡二叉树： https://leetcode-cn.com/problems/balanced-binary-tree/comments/ */
+/**4. 判断二叉树是否是平衡二叉树： 
+ * https://leetcode-cn.com/problems/balanced-binary-tree/comments/ */
 export function isBanced(root: TreeNode): boolean {
     return maxDeepth2(root) !== -1;
 }
@@ -347,15 +352,15 @@ export function sortedArrayToBst(nums: Array<number>): TreeNode {
 }
 
 function sortedArrayToBstProcess(nums: number[], start: number, end: number): TreeNode {
-  if (start > end) {
-    return null;
-  }
-  let node = null;
-  const middle =  start + Math.floor((end - start) / 2) ;
-  node = new TreeNode(nums[middle]);
-  node.left = sortedArrayToBstProcess(nums, start, middle - 1);
-  node.right = sortedArrayToBstProcess(nums, middle + 1, end);
-  return node;
+    if (start > end) {
+        return null;
+    }
+    let node = null;
+    const middle =  start + Math.floor((end - start) / 2) ;
+    node = new TreeNode(nums[middle]);
+    node.left = sortedArrayToBstProcess(nums, start, middle - 1);
+    node.right = sortedArrayToBstProcess(nums, middle + 1, end);
+    return node;
 }
 
 /** 16. 左叶子之和 https://leetcode-cn.com/problems/sum-of-left-leaves/ */
