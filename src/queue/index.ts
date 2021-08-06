@@ -102,17 +102,17 @@ class ListNode {
     if (nums === null) {
         return;
     }
-    let j = 0; // 假设可能出现0最早位置
-    // 正向过程
-    for (let i = 0; i < nums.length; i++ ) {
-        if (nums[i] !== 0 ) {
-            if (j !== i) {
-                let tmp = nums[i];
-                nums[i] = nums[j];
-                nums[j] = tmp;
+    let p = 0, // 零出现最开始的位置，prev指针 
+        q = 0, // 当前扫描元素
+        len = nums.length;
+    while (q < len) {
+        if (nums[q] !== 0) {
+            if (nums[p] === 0) {
+                [nums[q], nums[p]] = [nums[p], nums[q]];
             }
-            j++;
+            p++;
         }
+        q++;
     }
 }
 
