@@ -1,3 +1,5 @@
+import ListNode from './dataStruct/listNode';
+
 /**1.  删除有序数组中的重复项
  * https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
  */
@@ -62,15 +64,6 @@ function twoSum(nums: number[], target: number): number[] {
 /**4:合并两个有序链表
  * https://leetcode-cn.com/problems/merge-two-sorted-lists/
  */
-class ListNode {
-    val: number
-    next: ListNode | null
-    constructor(val?: number, next?: ListNode | null) {
-        this.val = (val===undefined ? 0 : val)
-        this.next = (next===undefined ? null : next)
-    }
-}
-
  function mergeTwoLists(l1: ListNode | null, l2: ListNode | null): ListNode | null {
     if (l1 === null || l2 === null) {
         return l1 || l2;
@@ -200,6 +193,79 @@ function threeSum(nums: number[]): number[][] {
     }
     return res;
 };
+
+/** 7. 反转链表
+ * https://leetcode-cn.com/problems/reverse-linked-list
+*/
+function reverseList(head: ListNode | null): ListNode | null {
+    if (!head) {
+        return head;
+    }
+    let p = null, q = head, newHead = null;
+    while (q) {
+        p = q;
+        q = q.next;
+        p.next = newHead;
+        newHead = p;
+    }
+    return newHead;
+};
+
+/** 8. 俩俩交互链表中的节点
+ * https://leetcode-cn.com/problems/swap-nodes-in-pairs/
+ */
+
+function swapPairs(head: ListNode | null): ListNode | null {
+    if (!head) {
+        return head;
+    }
+    let p:ListNode = head, q: ListNode = head && head.next;
+    while (p && q) {
+       [p.val, q.val] = [q.val, p.val];
+       p = q.next;
+       q = q.next && q.next.next;
+    }
+    return head;
+};
+
+/** 9. 环形链表
+ * https://leetcode-cn.com/problems/linked-list-cycle/
+ */
+ function hasCycle(head: ListNode | null): boolean {
+    let p = head, q = head;
+    while (q && q.next) {
+        p = p.next;
+        q = q.next.next;
+        
+        if (p === q) {
+            return true;
+        }
+    }
+   return false;   
+};
+
+/** 10. 环形链表
+ * 给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+ * https://leetcode-cn.com/problems/linked-list-cycle/
+ */
+ function detectCycle(head: ListNode | null): ListNode | null {
+   let p = head, q = head;
+   while (q && q.next) {
+       p = p.next;
+       q = q.next.next;
+       
+       if (p === q) {
+         q = head;
+         while (p !== q) {
+            p = p.next;
+            q = q.next;
+         }
+         return p;
+       }
+   }
+   return null;
+};
+
 
 
 
