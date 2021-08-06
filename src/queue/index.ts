@@ -9,7 +9,8 @@ function removeDuplicates(nums: number[]): number {
    if ( length <= 1) {
         return length; 
    }
-   let p = 0, q = 1;
+   let p = 0, // 标志不重复项
+       q = 1; // 标志当前项
    while (q < length) {
        if (nums[p] !== nums[q]) {
            if (q - p > 1) {
@@ -115,7 +116,6 @@ class ListNode {
     }
 }
 
-
 /** 4.1 移零 解法2
  * https://leetcode-cn.com/problems/move-zeroes/
  */
@@ -173,6 +173,7 @@ function threeSum(nums: number[]): number[][] {
         if (nums[i] > 0 ) {
             break;
         }
+        // 去重复
         if (i > 0 && nums[i-1] === nums[i]) {
             continue;
         }
