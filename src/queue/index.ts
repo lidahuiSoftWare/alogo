@@ -421,6 +421,7 @@ function minWindow(s: string, t: string): string {
                 match++
             }
         }
+        /** 右指针加 1 */
         r++;
         /** 如果元素找齐的情况下，进一步增大l的值，刷掉无用的元素 */
         while (match === needs.size) {
@@ -430,11 +431,14 @@ function minWindow(s: string, t: string): string {
             }
             let c2 = s[l];
             if (needs.has(c2)) {
+                /** 如果是needs 中的关键字，window 删除关键字个数一次。 这样做的目的是删除关键字的重复  */
                 window.set(c2, window.get(c2) - 1);
             }
+            /**检测删除后的元素，是否任何满足覆盖needs的关键字数 */
             if (window.get(c2) < needs.get(c2)) {
                 match--;
             }
+            /** 左滑动窗口，向右滑动 */
             l++; 
         }
     }
