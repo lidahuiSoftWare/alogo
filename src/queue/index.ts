@@ -266,6 +266,181 @@ function swapPairs(head: ListNode | null): ListNode | null {
    return null;
 };
 
+/**
+ * 11.  K 个一组翻转链表
+ * https://leetcode-cn.com/problems/reverse-nodes-in-k-group/
+ */
+ function reverseKGroup(head: ListNode | null, k: number): ListNode | null {
+    let dumy = new ListNode(0);
+    dumy.next = head;
+    let pre = dumy, // 每次循环的第一个开始节点的前一个节点
+        start = null, // 每次循环的第一个开始节点
+        end = dumy, // 每次循环的最后结束节点
+        next = null;  // 每次循环的最后结束节点的下一个节点
+    while (end.next !== null) {
+        for (let i = 0; i < k && end !== null; i++) {
+            end = end.next;
+        }
+        if (end === null) {
+            break;
+        }
+        // 设置：每次循环开始节点
+        start = pre.next; 
+        //保存结束节后的下一个节点 
+        next = end.next; 
+        /** 设置本次循环的结束节点的标志 */
+        end.next = null;
+        /** 链接好：已经旋转好的部分  */
+        // 将原链表的前部分，连接到
+        pre.next = myReverse(start);
+        //将旋转好的链表连接到原链表中next
+        start.next = next;
+        /** 设置下一个循环的起点 */
+        end = pre = start;
+    }
+    return dumy.next;    
+};
+
+function myReverse (node: ListNode): ListNode {
+    let pre = null,
+        curr = node,
+        next = null;
+    
+    while (curr !== null) {
+        next = curr.next;
+        curr.next = pre;
+        pre = curr;
+        curr = next;
+    }
+    return pre;
+}
+
+
+/**12.在排序数组中查找元素的第一个和最后一个位置
+ *  https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+ */
+ function searchRange(nums: number[], target: number): number[] {
+    if (!nums) {
+        return [ -1, -1];
+    }
+    let start = 0,
+        end = nums.length - 1,
+        res = [-1, -1];
+        
+    while (start <= end) {
+        let mid = start + ((end - start ) >> 1);
+        if (nums[mid] < target) {
+            start = mid + 1;
+        } else if (nums[mid] > target) {
+            end = mid - 1;
+        } else {
+            let p = mid, q = mid;
+            while ( p > 0 &&  nums[p] === nums[p - 1]) {
+                p--;
+            }
+            while (q < (nums.length - 1) &&  nums[q] === nums[q + 1]) {
+                q++;
+            }
+            res = [p,q];
+            break;
+        }
+    }
+    return res; 
+};
+
+/**13. 无重复字符的最长子串
+ * https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/solution/hua-dong-chuang-kou-by-powcai/
+ * 滑动窗口
+ */
+ function lengthOfLongestSubstring(s: string): number { 
+    if (!s || s.length < 1) {
+        return 0
+    }
+    let l = 0, r = 0, max = 0, len = s.length;
+    const set = new Set();
+    while (r < len) {
+        while (set.has(s[r])) {
+            set.delete(s[l])
+            l++;
+        }
+        set.add(s[r]);
+        max = Math.max(max, set.size);
+        r++;
+    }
+    return max;
+  } 
+
+function lengthOfLongestSubstring2(s: string): number { 
+   if (!s || s.length < 1) {
+       return 0
+   }
+   const map: Map<string, number> = new Map();
+   let max = 0,
+       left = 0,
+       len = s.length;
+   for (let i = 0; i < len; i++ ) {
+       if (map.has(s[i])) {
+           left = Math.max(left, map.get(s[i]) + 1);
+       }
+       map.set(s[i], i);
+       max = Math.max(max, i - left + 1);
+   }
+   return max;    
+ }
+
+ /**14: 最小覆盖子串
+  * https://leetcode-cn.com/problems/minimum-window-substring/
+  */
+function minWindow(s: string, t: string): string {
+    if (!s || !t) {
+        return "";
+    }
+    const window = new Map<string, number>();
+    const needs =  new Map<string, number>();
+    let res: string = null;
+    let start = 0, l = 0, r = 0, match = 0, minLen = Number.MAX_VALUE;
+    let tLen = t.length;
+    for (let i = 0; i < tLen ; i++) {
+        let c = t[i];
+        if (needs.has(c)) {
+            needs.set(c, needs.get(c) + 1);
+        } else {
+            needs.set(c, 1);
+        }
+    }
+    let len = s.length;
+    while (r < len) {
+        let c1 = s[r];
+        if (needs.has(c1)) {
+            if (window.has(c1)) {
+                window.set(c1, window.get(c1) + 1); 
+            } else {
+                window.set(c1, 1);
+            }
+            if (window.get(c1) === needs.get(c1)) {
+                match++
+            }
+        }
+        r++;
+        /** 如果元素找齐的情况下，进一步增大l的值，刷掉无用的元素 */
+        while (match === needs.size) {
+            if (r - l < minLen) {
+                start = l;
+                minLen = r - l;
+            }
+            let c2 = s[l];
+            if (needs.has(c2)) {
+                window.set(c2, window.get(c2) - 1);
+            }
+            if (window.get(c2) < needs.get(c2)) {
+                match--;
+            }
+            l++; 
+        }
+    }
+    res =  minLen === Number.MAX_VALUE ? "" : s.slice(start,start + minLen);
+    return res;
+};
 
 
 
