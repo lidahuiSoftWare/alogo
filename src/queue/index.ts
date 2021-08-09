@@ -201,14 +201,17 @@ function reverseList(head: ListNode | null): ListNode | null {
     if (!head) {
         return head;
     }
-    let p = null, q = head, newHead = null;
-    while (q) {
-        p = q;
-        q = q.next;
-        p.next = newHead;
-        newHead = p;
+    let pre = null,
+        curr = head,
+        next = null;
+    while (curr) {
+        next = curr.next;
+        curr.next = pre;
+        pre = curr;
+        curr = next;
     }
-    return newHead;
+    return pre;
+        
 };
 
 /** 8. 俩俩交互链表中的节点
@@ -421,7 +424,7 @@ function minWindow(s: string, t: string): string {
                 match++
             }
         }
-        /** 右指针加 1 */
+        /** 右指针加1 */
         r++;
         /** 如果元素找齐的情况下，进一步增大l的值，刷掉无用的元素 */
         while (match === needs.size) {
