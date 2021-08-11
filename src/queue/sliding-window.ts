@@ -7,12 +7,15 @@
       2 在2.1 向右滑动的过程中，检测是否满足目标条件
       3 如果满足条件，l 开始向右滑动，刷除无用的元素，一直到条件不满足
       4 继续以往循环
+
  三 固定滑动窗口技巧
     在动态滑动窗口的基础上，在 3步 限制条件需要加上 固定窗口size 不变的的限制条件
     
  四 总结
-    1. 忽略元素顺序的，是否覆盖子串，采用 Map 数据结构
-    2.
+    1. 建立移动窗口
+    2. 根据条件时候调整扩大和缩小窗口
+    3. 扩大窗口，r 指针向右
+    4. 缩小窗口，l 指针向右
 
  五 代码模板
  function minWindow(s: string, t: string): string {
@@ -50,8 +53,14 @@
         }
     }
 }
-
- */ 
+*/ 
+function mapPush(map: Map<string ,number>, e: string):void {
+    if (map.has(e)) {
+        map.set(e, map.get(e) + 1);
+    } else {
+        map.set(e, 1)
+    }
+}
  
 /**1: 最小覆盖子串
   * 给你一个字符串 s 、一个字符串 t 。返回 s 中涵盖 t 所有字符的最小子串。
@@ -68,11 +77,7 @@ function minWindow(s: string, t: string): string {
     // needs关键字 窗口
     const needs = new Map<string, number>(); 
     for (let e of t ) {
-        if (needs.has(e)) {
-            needs.set(e, needs.get(e) + 1);
-        } else {
-            needs.set(e, 1);
-        }
+        mapPush(needs,e);
     }
     const sLen = s.length;
     const nLen = needs.size;
@@ -82,11 +87,7 @@ function minWindow(s: string, t: string): string {
         /** 右指针加1 */
         r++;
         if (needs.has(c)) {
-            if (win.has(c)) {
-                win.set(c, win.get(c) + 1);
-            } else {
-                win.set(c, 1);
-            }
+            mapPush(win,c);
             /** 检测元素c 加入后，是否已经满足了 t字符串中对于元素c的个数要求  */
             if (win.get(c) == needs.get(c)) {
                 match++;
@@ -101,7 +102,7 @@ function minWindow(s: string, t: string): string {
             }
             /** 删除最左边的元素，窗口向左移动, */
             // 获取当前l 的值
-            let d  = s[l];
+            let d = s[l];
             // l向左移动
             l++;
             if (needs.has(d)) {
@@ -283,3 +284,5 @@ function checkInclusion(s1: string, s2: string): boolean {
      }
      return max;
  }
+
+
