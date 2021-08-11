@@ -1,6 +1,6 @@
 /** 构建最小堆 */
 interface fType<T> {
-    (a:T, b: T): boolean,
+    (a:T, b: T): boolean, /** 如果 a > b, 返回true */
 }
 
 export default class Heap <T> {
@@ -34,7 +34,7 @@ export default class Heap <T> {
         }
         this._shiftUp(parent);
     }
-
+    /** 删除堆顶元素 */
     public pop() {
         if (this.heap.length <= 0 ) {
             return ;
