@@ -2,14 +2,12 @@
  * 平衡二叉树，是一种特殊的二叉查找树
  * AVL 树是最早被发明的自平衡二叉树，，其每一个节点的左右子树的高度差不超过1。
  */
-
 interface Node {
     data: number, 
     left: Node,
     right: Node,
     height: number,
 }
-
 export default class AVLTree {
     root: Node; // 根节点
     length: number; // 树中节点数量

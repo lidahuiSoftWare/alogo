@@ -395,7 +395,8 @@ function pathInZigZagTree(label: number): number [] {
     let l: number, r: number, deep = res.length;
     for (let i = 1; i < deep - 1; i++) {
         /** deep 奇数，则需要对偶数层为进行操作  
-            deep 偶数，则需要对奇数层进行操作*/
+            deep 偶数，则需要对奇数层进行操作
+            deep 和 i 同时为 奇数/偶数 的情况下，直接跳转*/
         if ( (deep & 1) !== (i & 1)) {
             continue;
         }
