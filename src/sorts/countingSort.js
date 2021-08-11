@@ -31,7 +31,7 @@ function countingSort( arr = []) {
             max = val;
          }
      });
-     /** 申请 max + 1 个 桶 */
+     /** 索引值为max，数组长度为 max + 1 */
      const buckets = new Array(max + 1).fill(0);
      /** 统计arr中索引值代表的总数 */
      arr.forEach( val => {
