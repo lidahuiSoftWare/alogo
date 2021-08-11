@@ -8,16 +8,14 @@ function removeDuplicates(nums: number[]): number {
        return 0;
    }
    const length = nums.length;
-   if ( length <= 1) {
+   if (length <= 1) {
         return length; 
    }
-   let p = 0, // 标志不重复项
+   let p = 0, // 标志不重复项的最后一个元素, p ~ (q - 1) 之间为重复的元素
        q = 1; // 标志当前项
    while (q < length) {
        if (nums[p] !== nums[q]) {
-           if (q - p > 1) {
-                nums[p+1] = nums[q];
-           }
+           [nums[q],nums[p + 1]] = [nums[p + 1],nums[q]];
            p++;
        }
        q++;
@@ -25,7 +23,48 @@ function removeDuplicates(nums: number[]): number {
    return p + 1;
 };
 
-/**2. 旋转数组
+/** 2.移零
+ *  https://leetcode-cn.com/problems/move-zeroes/
+ */
+ function moveZeroes (nums: Array<number>): void {
+    if (nums === null) {
+        return;
+    }
+    let p = 0, // 零出现最开始的位置，prev指针 
+        q = 0, // 当前扫描元素
+        len = nums.length;
+    while (q < len) {
+        if (nums[q] !== 0) {
+            if (nums[p] === 0) {
+                [nums[q], nums[p]] = [nums[p], nums[q]];
+            }
+            p++;
+        }
+        q++;
+    }
+}
+
+/** 2.1 移零 解法2
+ * https://leetcode-cn.com/problems/move-zeroes/
+ */
+function moveZeroes2 (nums: Array<number>): void { 
+    if (nums === null) {
+        return;
+    }
+    let index = 0; // 标记 0出现的位置
+    let length = nums.length;
+    // 采用逆向过程
+    for (let i = 0; i < length; i++) {
+        if (nums[i] !== 0) {
+            nums[index++] = nums[i];
+        }
+    }
+    while ( index < length) {
+        nums[index++] = 0;
+    }
+}
+
+/**3. 旋转数组
  *  https://leetcode-cn.com/problems/rotate-array/
  */
 function rotate(nums: number[], k: number): number[] {
@@ -44,7 +83,7 @@ function reverse(nums: number[], start: number, end: number): void {
       [nums[start++], nums[end++]] = [nums[end], nums[start]]
     }
 }
-/**3: 俩数之和 
+/**4: 俩数之和 
  *  https://leetcode-cn.com/problems/two-sum/
 */
 function twoSum(nums: number[], target: number): number[] {
@@ -87,48 +126,6 @@ function twoSum(nums: number[], target: number): number[] {
     return head.next;
 };
 
-
-/** 4. 移零
- *  https://leetcode-cn.com/problems/move-zeroes/
- */
- function moveZeroes (nums: Array<number>): void {
-    if (nums === null) {
-        return;
-    }
-    let p = 0, // 零出现最开始的位置，prev指针 
-        q = 0, // 当前扫描元素
-        len = nums.length;
-    while (q < len) {
-        if (nums[q] !== 0) {
-            if (nums[p] === 0) {
-                [nums[q], nums[p]] = [nums[p], nums[q]];
-            }
-            p++;
-        }
-        q++;
-    }
-}
-
-/** 4.1 移零 解法2
- * https://leetcode-cn.com/problems/move-zeroes/
- */
-function moveZeroes2 (nums: Array<number>): void { 
-    if (nums === null) {
-        return;
-    }
-    let index = 0; // 标记 0出现的位置
-    let length = nums.length;
-    // 采用逆向过程
-    for (let i = 0; i < length; i++) {
-        if (nums[i] !== 0) {
-            nums[index++] = nums[i];
-        }
-    }
-    while ( index < length) {
-        nums[index++] = 0;
-    }
-}
-
 /**5:  盛最多水的容器
  * https://leetcode-cn.com/problems/container-with-most-water/
  * 在每一个状态下，无论长板或短板收窄 11 格，都会导致水槽 底边宽度 -1
@@ -153,6 +150,7 @@ function moveZeroes2 (nums: Array<number>): void {
 
 /**6: 三数之和 
  * https://leetcode-cn.com/problems/3sum/
+ * 解法： 双指针夹逼法
 */
 function threeSum(nums: number[]): number[][] {
     if (!nums || nums.length < 3) {
@@ -194,6 +192,14 @@ function threeSum(nums: number[]): number[][] {
     return res;
 };
 
+/**7.k 数之和
+ * https://leetcode-cn.com/problems/4sum/solution/shuang-zhi-zhen-jie-fa-can-zhao-san-shu-zhi-he-ge-/
+ */
+
+function fourSum(nums: number[], target: number): number[][] {
+
+};
+
 /** 7. 反转链表
  * https://leetcode-cn.com/problems/reverse-linked-list
 */
@@ -211,7 +217,6 @@ function reverseList(head: ListNode | null): ListNode | null {
         curr = next;
     }
     return pre;
-        
 };
 
 /** 8. 俩俩交互链表中的节点
@@ -270,7 +275,7 @@ function swapPairs(head: ListNode | null): ListNode | null {
 };
 
 /**
- * 11.  K 个一组翻转链表
+ * 11.K 个一组翻转链表
  * https://leetcode-cn.com/problems/reverse-nodes-in-k-group/
  */
  function reverseKGroup(head: ListNode | null, k: number): ListNode | null {
@@ -296,14 +301,14 @@ function swapPairs(head: ListNode | null): ListNode | null {
         /** 链接好：已经旋转好的部分  */
         // 将原链表的前部分，连接到
         pre.next = myReverse(start);
-        //将旋转好的链表连接到原链表中next
+        //此时start节点，已经由开头变成了尾巴，将旋转好的链表连接到原链表中next
         start.next = next;
         /** 设置下一个循环的起点 */
         end = pre = start;
     }
     return dumy.next;    
 };
-
+// 单链表反转
 function myReverse (node: ListNode): ListNode {
     let pre = null,
         curr = node,
@@ -312,12 +317,12 @@ function myReverse (node: ListNode): ListNode {
     while (curr !== null) {
         next = curr.next;
         curr.next = pre;
+        // pre 指针前进，转向逆转后真正的头部指针
         pre = curr;
         curr = next;
     }
     return pre;
 }
-
 
 /**12.在排序数组中查找元素的第一个和最后一个位置
  *  https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/
@@ -398,7 +403,7 @@ function minWindow(s: string, t: string): string {
     if (!s || !t) {
         return "";
     }
-    const window = new Map<string, number>();
+    const win = new Map<string, number>();
     const needs =  new Map<string, number>();
     let res: string = null;
     let start = 0, l = 0, r = 0, match = 0, minLen = Number.MAX_VALUE;
@@ -414,18 +419,18 @@ function minWindow(s: string, t: string): string {
     let len = s.length;
     while (r < len) {
         let c1 = s[r];
+        /** 右指针加1 */
+        r++;
         if (needs.has(c1)) {
-            if (window.has(c1)) {
-                window.set(c1, window.get(c1) + 1); 
+            if (win.has(c1)) {
+                win.set(c1, win.get(c1) + 1); 
             } else {
-                window.set(c1, 1);
+                win.set(c1, 1);
             }
-            if (window.get(c1) === needs.get(c1)) {
+            if (win.get(c1) === needs.get(c1)) {
                 match++
             }
         }
-        /** 右指针加1 */
-        r++;
         /** 如果元素找齐的情况下，进一步增大l的值，刷掉无用的元素 */
         while (match === needs.size) {
             if (r - l < minLen) {
@@ -434,11 +439,11 @@ function minWindow(s: string, t: string): string {
             }
             let c2 = s[l];
             if (needs.has(c2)) {
-                /** 如果是needs 中的关键字，window 删除关键字个数一次。 这样做的目的是删除关键字的重复  */
-                window.set(c2, window.get(c2) - 1);
+                /** 如果是needs 中的关键字，win 删除关键字个数一次。 这样做的目的是删除关键字的重复  */
+                win.set(c2, win.get(c2) - 1);
             }
             /**检测删除后的元素，是否任何满足覆盖needs的关键字数 */
-            if (window.get(c2) < needs.get(c2)) {
+            if (win.get(c2) < needs.get(c2)) {
                 match--;
             }
             /** 左滑动窗口，向右滑动 */
@@ -447,6 +452,59 @@ function minWindow(s: string, t: string): string {
     }
     res =  minLen === Number.MAX_VALUE ? "" : s.slice(start,start + minLen);
     return res;
+};
+
+/** 15:  字符串的排列
+ * 给你两个字符串 s1 和 s2 ，写一个函数来判断 s2 是否包含 s1 的排列。
+ * https://leetcode-cn.com/problems/permutation-in-string/
+ * 解法： 固定滑动窗口的题型
+ */
+function checkInclusion(s1: string, s2: string): boolean {
+    if (!s1 || !s2 ) {
+        return false;
+    }
+    const needs = new Map<string, number>();
+    const win =  new Map<string, number>();
+    
+    for (let i = 0; i < s1.length; i++) {
+        if (needs.has(s1[i])) {
+            needs.set(s1[i], needs.get(s1[i]) + 1);
+        } else {
+            needs.set(s1[i], 1);
+        }
+    }
+    let len = s2.length, l = 0 , r = 0, match = 0;
+    while (r < len) {
+        let c = s2[r];
+        r++;
+        if (needs.has(c)) {
+            if (win.has(c)) {
+                win.set(c, win.get(c) + 1);
+            } else {
+                win.set(c, 1);
+            }
+            if (win.get(c) === needs.get(c)) {
+                match++;
+            }
+        }
+
+        /**维持固定窗口的大小的检测 */
+        if ((r - l)  >= s1.length) {
+            if (match === needs.size) {
+                return true;
+            }
+            /**滑动窗口中一定含有无用的元素，l需要前移动*/
+            let d = s2[l];
+            l++;
+            if (needs.has(d)) {
+               if (win.get(d) === needs.get(d)) {
+                    match--;
+               }
+               win.set(d, win.get(d) - 1)
+            }
+        }
+    }
+    return false;
 };
 
 
