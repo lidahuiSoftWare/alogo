@@ -2,7 +2,6 @@
 interface fType<T> {
     (a:T, b: T): boolean, /** 如果 a > b, 返回true */
 }
-
 export default class Heap <T> {
     heap: Array<T>;
     compare: fType<T>;
@@ -42,11 +41,7 @@ export default class Heap <T> {
         this.heap[0] = this.heap.pop();
         this._shiftDown(0);
     }
-
-    public hasChild(index: number): boolean {
-        return ((index << 1) + 1) < this.heap.length;
-    }
-
+ 
     private _shiftDown(index: number) {
         const len = this.heap.length;
         if (this.hasChild(index) === false) {
@@ -60,6 +55,10 @@ export default class Heap <T> {
             [this.heap[ci], this.heap[index]] = [this.heap[index], this.heap[ci]]
             this._shiftDown(ci);
         }
+    }
+
+    public hasChild(index: number): boolean {
+        return ((index << 1) + 1) < this.heap.length;
     }
 
     public peek(): T | null {
