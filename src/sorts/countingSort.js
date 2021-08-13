@@ -21,7 +21,7 @@
 function countingSort( arr = []) {
     const length =  arr.length;
 
-    if ( length <= 1) {
+    if (length <= 1) {
         return arr;
      }
      /** 找到数组中最大值 */
