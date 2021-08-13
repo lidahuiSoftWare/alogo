@@ -95,7 +95,7 @@ function minWindow(s: string, t: string): string {
         }
         /** 窗口向右移动的过程中，检测是否已经覆盖了t的所有元素  */
         while (match === nLen) {
-            if (minLen > (r - l)){
+            if (minLen > (r - l)) {
                 minLen = (r - l);
                 start = l;
                 end = r;
@@ -130,11 +130,7 @@ function checkInclusion(s1: string, s2: string): boolean {
     const needs = new Map<string, number>();
 
     for (let e of s1 ) {
-        if (needs.has(e)) {
-            needs.set(e, needs.get(e) + 1);
-        } else {
-            needs.set(e, 1);
-        }
+        mapPush(needs,e);
     }
     let l = 0, r = 0, match = 0;
     const nLen = needs.size
@@ -144,11 +140,7 @@ function checkInclusion(s1: string, s2: string): boolean {
         let c = s2[r];
         r++;
         if (needs.has(c)) {
-            if (win.has(c)) {
-                win.set(c, win.get(c) + 1);
-            } else {
-                win.set(c , 1);
-            }
+            mapPush(win,c);
             if (win.get(c) === needs.get(c)) {
                 match++;
             }
@@ -164,7 +156,7 @@ function checkInclusion(s1: string, s2: string): boolean {
             l++;
             /** 删除元素d，更新win 关键字和match */
             if (needs.has(d)) {
-                if (win.get(d) ===  needs.get(d)) {
+                if (win.get(d) === needs.get(d)) {
                     match--;
                 }
                 win.set(d, win.get(d) - 1);
@@ -186,13 +178,9 @@ function checkInclusion(s1: string, s2: string): boolean {
      }
      const needs = new Map<string, number>();
      const win = new Map<string, number>();
-     
+
      for (let e of p) {
-        if (needs.has(e)) {
-            needs.set(e, needs.get(e) + 1);
-        } else {
-            needs.set(e, 1);
-        }
+        mapPush(needs,e);
      }
      let l = 0, r = 0, match = 0;
      const nLen = needs.size;
@@ -201,11 +189,7 @@ function checkInclusion(s1: string, s2: string): boolean {
         let c = s[r];
         r++;
         if (needs.has(c)) {
-            if (win.has(c)) {
-                win.set(c, win.get(c) + 1);
-            } else {
-                win.set(c, 1);
-            }
+            mapPush(win,c);
             if (win.get(c) === needs.get(c)) {
                 match++;
             }
@@ -241,11 +225,7 @@ function checkInclusion(s1: string, s2: string): boolean {
      while (r < sLen) {
         let c = s[r];
         r++;
-        if (win.has(c)) {
-            win.set(c, win.get(c) + 1);
-        } else {
-            win.set(c, 1);
-        }
+        mapPush(win,c);
         /**如果有重复的元素，左窗口向右移动，进行窗口缩小 */
         while (win.get(c) > 1) {
             let d = s[l];
@@ -285,4 +265,22 @@ function checkInclusion(s1: string, s2: string): boolean {
      return max;
  }
 
+ function lengthOfLongestSubstring3(s: string): number { 
+    if (!s || s.length < 1) {
+       return  0;
+    }
+    let l = 0, r = 0, max = Number.MIN_VALUE;
+    const sLen = s.length;
+    const map = new Map<string,number>();
+    while (r < sLen) {
+        let c = s[r];
+        if (map.has(c) && map.get(c) >= l) {
+            l = map.get(c) + 1;
+        }
+        map.set(c,r);
+        max = Math.max(max, r - l + 1);
+        r++;
+    }
+    return max;
+}
 

@@ -2,6 +2,7 @@ import ListNode from './dataStruct/listNode';
 
 /**1.  删除有序数组中的重复项
  * https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
+ * 
  */
 function removeDuplicates(nums: number[]): number {
    if (!nums) {
@@ -285,7 +286,7 @@ function swapPairs(head: ListNode | null): ListNode | null {
         start = null, // 每次循环的第一个开始节点
         end = dumy, // 每次循环的最后结束节点
         next = null;  // 每次循环的最后结束节点的下一个节点
-    while (end.next !== null) {
+    while (end !== null) {
         for (let i = 0; i < k && end !== null; i++) {
             end = end.next;
         }
@@ -465,7 +466,6 @@ function checkInclusion(s1: string, s2: string): boolean {
     }
     const needs = new Map<string, number>();
     const win =  new Map<string, number>();
-    
     for (let i = 0; i < s1.length; i++) {
         if (needs.has(s1[i])) {
             needs.set(s1[i], needs.get(s1[i]) + 1);
@@ -487,7 +487,6 @@ function checkInclusion(s1: string, s2: string): boolean {
                 match++;
             }
         }
-
         /**维持固定窗口的大小的检测 */
         if ((r - l)  >= s1.length) {
             if (match === needs.size) {
@@ -505,6 +504,33 @@ function checkInclusion(s1: string, s2: string): boolean {
         }
     }
     return false;
+};
+/** 16.有效括号
+ * 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+ * https://leetcode-cn.com/problems/valid-parentheses/
+ * 
+ */
+function isValid(s: string): boolean {
+    if (!s || s.length < 1) {
+        return false;
+    }
+    const map = new Map<string ,string>([['(',')'], ['{','}'], ['[',']']]);
+    const stack: Array<string> = [];
+    for (let p of s) {
+        if (map.has(p)) {
+            stack.push(p);
+        } else {
+            if (stack.length) {
+                const c: string = stack.pop();
+                if (map.get(c) !== p) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+    }
+    return stack.length > 0 ? false : true;  
 };
 
 
