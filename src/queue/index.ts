@@ -2,7 +2,7 @@ import ListNode from './dataStruct/listNode';
 
 /**1.  删除有序数组中的重复项
  * https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
- * 
+ * 解法：双指针
  */
 function removeDuplicates(nums: number[]): number {
    if (!nums) {
@@ -26,6 +26,7 @@ function removeDuplicates(nums: number[]): number {
 
 /** 2.移零
  *  https://leetcode-cn.com/problems/move-zeroes/
+ * 解法： 双指针
  */
  function moveZeroes (nums: Array<number>): void {
     if (nums === null) {
@@ -151,7 +152,7 @@ function twoSum(nums: number[], target: number): number[] {
 
 /**6: 三数之和 
  * https://leetcode-cn.com/problems/3sum/
- * 解法： 双指针夹逼法
+ * 解法： 排序后，双指针夹逼法
 */
 function threeSum(nums: number[]): number[][] {
     if (!nums || nums.length < 3) {
@@ -256,6 +257,7 @@ function swapPairs(head: ListNode | null): ListNode | null {
 /** 10. 环形链表
  * 给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
  * https://leetcode-cn.com/problems/linked-list-cycle/
+ * 解法： 快慢指针
  */
  function detectCycle(head: ListNode | null): ListNode | null {
    let p = head, q = head;
