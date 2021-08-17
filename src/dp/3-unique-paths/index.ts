@@ -44,6 +44,7 @@ export function solution(m: number, n: number): number {
     /** 初始化二维数组 */
     for (let i = 0; i < m; i++ ) {
         dp[i] = new Array(n);
+        /**第一列 */
         dp[i][0] = 1;
     }
     dp[0].fill(1);
