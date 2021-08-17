@@ -6,6 +6,7 @@
 * 建立 value 和 所在数组索引 index 建立 map，可以由value ，通过 map 可以获取其所在的value 对应的index
 * 该典型应用于
   * 2数之和
+    * https://leetcode-cn.com/problems/two-sum/
   * 还原树 
     * https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
 
