@@ -198,9 +198,9 @@ function threeSum(nums: number[]): number[][] {
  * https://leetcode-cn.com/problems/4sum/solution/shuang-zhi-zhen-jie-fa-can-zhao-san-shu-zhi-he-ge-/
  */
 
-function fourSum(nums: number[], target: number): number[][] {
+// function fourSum(nums: number[], target: number): number[][] {
 
-};
+// };
 
 /** 7. 反转链表
  * https://leetcode-cn.com/problems/reverse-linked-list
@@ -225,7 +225,7 @@ function reverseList(head: ListNode | null): ListNode | null {
  * https://leetcode-cn.com/problems/swap-nodes-in-pairs/
  */
 
-function swapPairs(head: ListNode | null): ListNode | null {
+export function swapPairs(head: ListNode | null): ListNode | null {
     if (!head) {
         return head;
     }
@@ -241,7 +241,7 @@ function swapPairs(head: ListNode | null): ListNode | null {
 /** 9. 环形链表
  * https://leetcode-cn.com/problems/linked-list-cycle/
  */
- function hasCycle(head: ListNode | null): boolean {
+ export function hasCycle(head: ListNode | null): boolean {
     let p = head, q = head;
     while (q && q.next) {
         p = p.next;
@@ -259,7 +259,7 @@ function swapPairs(head: ListNode | null): ListNode | null {
  * https://leetcode-cn.com/problems/linked-list-cycle/
  * 解法： 快慢指针
  */
- function detectCycle(head: ListNode | null): ListNode | null {
+ export function detectCycle(head: ListNode | null): ListNode | null {
    let p = head, q = head;
    while (q && q.next) {
        p = p.next;
@@ -281,7 +281,7 @@ function swapPairs(head: ListNode | null): ListNode | null {
  * 11.K 个一组翻转链表
  * https://leetcode-cn.com/problems/reverse-nodes-in-k-group/
  */
- function reverseKGroup(head: ListNode | null, k: number): ListNode | null {
+ export function reverseKGroup(head: ListNode | null, k: number): ListNode | null {
     let dumy = new ListNode(0);
     dumy.next = head;
     let pre = dumy, // 每次循环的第一个开始节点的前一个节点
@@ -329,6 +329,7 @@ function myReverse (node: ListNode): ListNode {
 
 /**12.在排序数组中查找元素的第一个和最后一个位置
  *  https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+ * 解法： 二分法
  */
  function searchRange(nums: number[], target: number): number[] {
     if (!nums) {
@@ -535,6 +536,27 @@ function isValid(s: string): boolean {
     return stack.length > 0 ? false : true;  
 };
 
+/** 数组取交集 */
+function getSet(arr1: number [], arr2: number []): number[] {
+    if (!arr1 || !arr2) {
+        return [];
+    }
+    const set = new Set<number>();
+    const res = new Set<number>();
+    for ( let i = 0; i < arr1.length; i++ ) {
+        set.add(arr1[i]);
+    }
+    for (let i = 0; i < arr2.length; i++) {
+        if (set.has(arr2[i])) {
+            res.add(arr2[i]);
+        }
+    }
+    let result: Array<number>= [];
+    for (let p of res) {
+        result.push(p);
+    }
+    return result;
+}
 
 
 

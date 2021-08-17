@@ -284,3 +284,31 @@ function checkInclusion(s1: string, s2: string): boolean {
     return max;
 }
 
+/**5.最长连续序列
+ * 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度
+ * https://leetcode-cn.com/problems/longest-consecutive-sequence/
+ * 时间复杂度 O(n)
+ * 空间复杂度 O(n)
+ */
+export function longestConsecutive(nums: number[]): number {
+    if (!nums || nums.length < 1) {
+        return 0;
+    }
+    let max = 1;
+    const set = new Set<number>();
+    // 消除重复
+    for (let i = 0; i < nums.length; i++) {
+        set.add(nums[i]);
+    }
+    for (let p of set) {
+        if (set.has(++p) === false) {
+           let len = 1; 
+           while (set.has(++p)) {
+                len++;
+           }
+           max = Math.max(max, len);
+        }
+    }
+    return max;
+};
+/** 看似有双重循环，但仔细分析可知，数组中的每一个元素最多也就会被访问两次，因此还是线性的时间复杂度 */

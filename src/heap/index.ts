@@ -49,5 +49,4 @@ function topKFrequent(nums: number[], k: number): number[] {
     return res;
 };
 
-console.log(topKFrequent([5,-3,9,1,7,7,9,10,2,2,10,10,3,-1,3,7,-9,-1,3,3],3));
 

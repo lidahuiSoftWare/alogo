@@ -76,7 +76,7 @@ export function isCompleteTreeNode(root: TreeNode): boolean {
     let hasNoChild = false;
     const queue: Array<TreeNode> = [];
     queue.push(root);
-    
+
     while (queue.length) {
         let p = queue.shift();
         if (hasNoChild && p) {
@@ -150,7 +150,7 @@ export function isSameTreeNode(t1: TreeNode , t2: TreeNode): boolean {
 export function isMirror(t1: TreeNode, t2: TreeNode): boolean {
     if (t1 === null && t2 === null) {
         return true;
-    }else if (t1 === null || t2 === null) {
+    } else if (t1 === null || t2 === null) {
         return false;
     }
     if (t1.val !== t2.val) {
@@ -475,8 +475,8 @@ function buildTreeHelper(preorder: number[], ps: number, pe: number, inorder: nu
  * 给你二叉树的根节点 root 和一个表示目标和的整数 targetSum ，
  * 判断该树中是否存在 根节点到叶子节点 的路径，这条路径上所有节点值相加等于目标和 targetSum 
  * https://leetcode-cn.com/problems/path-sum/
+ * 解法： 深度遍历
  */
-
 export function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
     if (root === null) {
         return false;
@@ -486,6 +486,7 @@ export function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
 };
 
 function hasPathSumHelper(root: TreeNode | null, targetSum: number): boolean {
+    /** 1.函数出口：当前节点为叶子节点 */
     if (!root.left && !root.right) {
         if (root.val === targetSum) {
             return true;
@@ -493,12 +494,15 @@ function hasPathSumHelper(root: TreeNode | null, targetSum: number): boolean {
             return false;
         }
     }
+
     targetSum = targetSum - root.val;
+    /** 判断左子树 */
     if (root.left) {
         if (hasPathSumHelper(root.left,targetSum)) {
             return true
         }
     }
+  /** 判断右子子树 */
     if (root.right) {
         if (hasPathSumHelper(root.right, targetSum)) {
             return true
@@ -522,22 +526,20 @@ export function pathSum(root: TreeNode | null, targetSum: number): number[][] {
    return res;
 };
 
-function pathSumHelper(node: TreeNode | null, targetSum: number, currList: Array<number>, res: Array<Array<number>>): void{
-   if (!node.left && !node.right && targetSum === node.val && ) {
+function pathSumHelper(node: TreeNode, targetSum: number, currList: Array<number>, res: Array<Array<number>>): void{
+   if (!node.left && !node.right && targetSum === node.val) {
         currList = [...currList, node.val];
         res.push(currList);
    }
    targetSum = targetSum - node.val;
+   currList.push(node.val);
    if (node.left) {
-       currList.push(node.val);
-       pathSumHelper(node.left,targetSum, currList, res);
-       currList.pop();
+       pathSumHelper(node.left,targetSum, currList, res); 
    }
    if (node.right) {
-        currList.push(node.val);
         pathSumHelper(node.right,targetSum, currList, res);
-        currList.pop();
    }
+   currList.pop();
 };
 
 /**21.二叉树层次遍历
@@ -600,7 +602,7 @@ export function rightSideView(root: TreeNode | null): number[] {
     }
     return res;
 };
-/**23.二叉树的平均值
+/**23.二叉树每层的平均值
  * https://leetcode-cn.com/problems/average-of-levels-in-binary-tree/
  * 解法： 层次遍历
  */
@@ -663,6 +665,7 @@ export function levelOrder(root: Node | null): number[][] {
 /** 25.在每个树行中找最大值
  * 给定一棵二叉树的根节点 root ，请找出该二叉树中每一层的最大值。
  * https://leetcode-cn.com/problems/find-largest-value-in-each-tree-row/
+ * 解法： 层次遍历
  */
 export function largestValues(root: TreeNode | null): number[] {
     if (!root) {
